@@ -1,0 +1,16 @@
+<main>
+    <div>
+        <% for (const data of datas) { %>
+            <article>
+                <h3><%= data.title %></h3>
+                <div>
+                    <img src="/img/<%= data.src %>" alt="<%= data.title %>" class="card-img">
+                    <a href="/liste/1">
+                        <img src="/img/file.svg" alt="">
+                    </a>
+                </div>
+                <p><%= data.description %></p>
+            </article>
+        <% }%>
+    </div>
+</main>

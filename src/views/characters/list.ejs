@@ -1,0 +1,37 @@
+<main>
+    <form method="POST">
+        <input type="text" name="search" placeholder="Search...">
+        
+        <h2>Catégorie</h2>
+        <label for="clear">Toutes</label>
+        <input value="all" type="radio" name="cat" id="clear">
+        
+        <label for="FE-A">FE-A</label>
+        <input value="FE-A" type="radio" name="cat" id="FE-A">
+        
+        <label for="FE-3H">FE-3H</label>
+        <input value="FE-3H" type="radio" name="cat" id="FE-3H">
+        
+        <label for="FE-POR">FE-POR</label>
+        <input value="FE-POR" type="radio" name="cat" id="FE-POR">
+        
+        <label for="FE-FCQ">FE-FCQ</label>
+        <input value="FE-FCQ" type="radio" name="cat" id="FE-FCQ">
+
+        <input type="submit" value="Search">
+    </form>
+    <div>
+        <% for (const data of datas) { %>
+            <article>
+                <h3><%= data.title %></h3>
+                <div>
+                    <img src="/img/<%= data.src %>" alt="<%= data.title %>" class="card-img">
+                    <a href="/liste/<%= data.id %>">
+                        <img src="/img/file.svg" alt="">
+                    </a>
+                </div>
+                <p><%= data.description %></p>
+            </article>
+        <% }%>
+    </div>
+</main>
