@@ -15,3 +15,9 @@ export const registerControler = (req, res) => {
         template: "../auth/register",
     });
 }
+
+// export const registerPostControler = (req, res) => {
+//     let username = req.body.username;
+//     let password = req.body.password;
+//     res.send(`Username: ${username} Password: ${password}`);
+// }

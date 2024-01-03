@@ -2,14 +2,14 @@
 import express from "express";
 import path from "path";
 import favicon from "serve-favicon";
-import jsonfile from "jsonfile";
-import bcrypt from "bcrypt";
 import multer from "multer";
 
-import homeControler from "./routes/home.js";
-import listControler, { detailControler, listPostControler } from "./routes/list.js";
-import { loginControler, loginPostControler, registerControler } from "./routes/login.js";
-import { formControler, formPostControler } from "./routes/form.js";
+import homeControler from "./controller/home.js";
+import listControler, { detailControler, listPostControler } from "./controller/list.js";
+import { loginControler, loginPostControler, registerControler } from "./controller/login.js";
+import { formControler, formPostControler } from "./controller/form.js";
+
+import router from "./router/index.route.js";
 
 // Création de l'application express
 const app  = express();
@@ -35,23 +35,25 @@ app.use("/liste", characterRouter);
 app.use("/se-connecter", authRouter);
 app.use("/form", formRouter);
 
-app.get("/", homeControler);
+app.use(router)
 
-characterRouter.get("/", listControler)
+// app.get("/", homeControler);
 
-characterRouter.post("/", listPostControler);
+// characterRouter.get("/", listControler)
 
-characterRouter.get("/:id", detailControler);
+// characterRouter.post("/", listPostControler);
 
-authRouter.get("/", loginControler);
+// characterRouter.get("/:id", detailControler);
 
-authRouter.post('/', loginPostControler);
+// authRouter.get("/", loginControler);
 
-authRouter.get("/auth", registerControler);
+// authRouter.post('/', loginPostControler);
 
-formRouter.get("/", formControler);
+// authRouter.get("/auth", registerControler);
 
-formRouter.post("/", multer().single("img"), formPostControler);
+// formRouter.get("/", formControler);
+
+// formRouter.post("/", formPostControler);
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
