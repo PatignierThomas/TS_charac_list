@@ -11,7 +11,7 @@ const PORT = 9000;
 const file = path.join(process.cwd(), "public/data/datas.json");
 
 
-// favicon -> icône du site dans l'onglet du navigateur
+// favicon -> icône du site dans l'onglet du navigateur 
 // explication de la méthode use() plus bas (ligne 60)
 app.use(favicon(path.join(process.cwd(), 'public/assets/favicon', 'favicon.ico')));
 
@@ -30,7 +30,7 @@ app.use(favicon(path.join(process.cwd(), 'public/assets/favicon', 'favicon.ico')
 // - d'envoyer une réponse au client qui sera dynamiquement paramétrée (Content-Type, Content-Length) en fonction du type de paramètre passé (chaîne de caractères, objet, tableau, etc.)
 // - de terminer le traitement de la requête HTTP (cycle req/res)
 app.get("/", (req, res) => {
-    res.send("<h1>Hello Express !</h1>");
+    res.send("<h1>Hello Express !</h1>"); 
  
 });
 
