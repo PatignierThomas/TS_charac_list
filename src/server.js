@@ -30,6 +30,8 @@ app.use("/liste", characterRouter);
 app.use("/se-connecter", authRouter);
 app.use("/form", formRouter);
 
+// permet de stocker des données de sessions dans un store (par défaut dans la mémoire)
+// et de les récupérer dans les requêtes suivantes
 app.use(
     session({
         secret: "aYF8ISbYkXvzsrA4LVvRj6LQo5gLBqUX", // clé de chiffrement du cookie de session, https://www.random.org/strings/
@@ -48,10 +50,11 @@ app.use(
 // middleware pour rendre des données de sessions disponibles sur toutes les routes
 // res.locals est un objet d'Express qui contient des variables locales utilisables dans les vues entre les cycles de requête / réponse
 app.use((req, res, next) => {
+    res.locals.name = req.session.name;
     res.locals.logged = req.session.isLogged;
+    res.locals.isAdmin = req.session.isAdmin;
     next();
 });
-
 
 app.use(router)
 

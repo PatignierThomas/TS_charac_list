@@ -15,11 +15,13 @@ export const loginPost = (req, res) => {
     jsonfile.readFile(users, (err, data) => {
         if (err) console.error(err);
         const user = data.find(user => user.username === req.body.username);
+        if (!user) return res.redirect("/se-connecter?error=auth");
         bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err) console.error(err);
-            if (!result || !user) {
+            if (!result) {
                 return res.redirect("/se-connecter?error=auth");
             } else {
+                req.session.isAdmin = user.isAdmin;
                 req.session.name = req.body.username;
                 req.session.isLogged = true;
                 return res.redirect("/");
@@ -47,7 +49,11 @@ export const registerPost = (req, res) => {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
             if (err) console.error(err);
             req.session.password = hash;
-            const creds = { username: req.body.username, password: hash };
+            const creds = { 
+                username: req.body.username, 
+                password: hash,
+                isAdmin: false,
+            };
             data.push(creds);
             jsonfile.writeFile(users, data, (err) => {
                 if (err) console.error(err);
