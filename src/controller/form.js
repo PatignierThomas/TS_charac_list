@@ -1,12 +1,6 @@
-import jsonfile from "jsonfile";
-import bcrypt from "bcrypt";
 import path from "path";
 import multer from "multer";
 import fs from "fs";
-import { extname } from "path";
-import { join } from "path";
-
-const articles = path.join(process.cwd(), "public/data/articles.json");
 
 // multer.diskStorage permet de définir le dossier de destination et le nom du fichier
 const storage = multer.diskStorage({
@@ -52,13 +46,13 @@ const upload = multer({
     },
 }).array("img", 10); // image est le nom de l'input type file -> attribut name, 10 est le nombre de fichiers acceptés maximum
 
-export const formControler = (req, res) => {
+export const formView = (req, res) => {
     res.render("layout/base", {
         template: "../pages/form",
     });
 }
 
-export const formPostControler = (req, res) => {
+export const formPost = (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             if (err.code === "LIMIT_FILE_SIZE") {
@@ -73,17 +67,4 @@ export const formPostControler = (req, res) => {
             }
         }
     });
-
-    // let hashedArticle = {}
-    // bcrypt.hash(req.body.article, 10, (err, hash) => {
-    //     if (err) console.error(err);
-    //     hashedArticle = {hash, ...req.file, ...req.body};
-    //     jsonfile.writeFile(articles, hashedArticle, (err) => {
-    //         if (err) console.error(err);
-    //     });
-    // });
-    // res.render("layout/base", {
-    //     template: "../pages/form",
-    //     data: req.body,
-    // });
 }

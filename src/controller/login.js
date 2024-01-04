@@ -4,14 +4,14 @@ import path from "path";
 
 const users = path.join(process.cwd(), "public/data/users.json");
 
-export const loginControler = (req, res) => {
+export const loginView = (req, res) => {
     res.render("layout/base", {
         template: "../auth/login",
         query: req.query,
     });
 }
 
-export const loginPostControler = (req, res) => {
+export const loginPost = (req, res) => {
     jsonfile.readFile(users, (err, data) => {
         if (err) console.error(err);
         const user = data.find(user => user.username === req.body.username);
@@ -19,7 +19,7 @@ export const loginPostControler = (req, res) => {
             if (err) console.error(err);
             if (!result || !user) {
                 return res.redirect("/se-connecter?error=auth");
-            } else if (result){
+            } else {
                 req.session.name = req.body.username;
                 req.session.isLogged = true;
                 return res.redirect("/");
@@ -28,19 +28,19 @@ export const loginPostControler = (req, res) => {
     });
 };
 
-export const registerControler = (req, res) => {
+export const registerView = (req, res) => {
     res.render("layout/base", {
         template: "../auth/register",
         query: req.query,
     });
 }
 
-export const registerPostControler = (req, res) => {
+export const registerPost = (req, res) => {
     jsonfile.readFile(users, (err, data) => {
         if (err) console.error(err);
         // check if username already exists
         const user = data.find(user => user.username === req.body.username);
-        if (user) return res.redirect("/se-connecter/deconnexion?error=exists");
+        if (user) return res.redirect("/se-connecter/auth?error=exists");
         // create new user
         req.session.name = req.body.username;
         // hash password
@@ -57,7 +57,7 @@ export const registerPostControler = (req, res) => {
     });
 }
 
-export const logoutControler = (req, res) => {
+export const logout = (req, res) => {
     req.session.destroy((err) => {
         if (err) console.error(err);
     });

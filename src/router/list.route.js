@@ -1,13 +1,13 @@
 import express from 'express';
-import listControler , { detailControler, listPostControler,  } from '../controller/list.js';
+import listView , { detailView, listPost,  } from '../controller/list.js';
 
 const listRouter = express.Router();
 
-listRouter.get('/', listControler);
+listRouter.get('/', listView);
 
-listRouter.post('/', listPostControler);
+listRouter.post('/', listPost);
 
-listRouter.get('/:id', detailControler);
+listRouter.get('/:id', detailView);
 
 
 

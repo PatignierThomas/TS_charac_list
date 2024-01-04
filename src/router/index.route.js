@@ -1,12 +1,12 @@
 import express from 'express';
-import homeControler from '../controller/home.js';
+import homeView from '../controller/home.js';
 import listRouter from './list.route.js';
 import loginRouter from './login.route.js';
 import formRouter from './form.route.js';
 
 const indexRouter = express.Router();
 
-indexRouter.get('/', homeControler);
+indexRouter.get('/', homeView);
 
 indexRouter.use('/liste', listRouter);
 

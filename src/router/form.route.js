@@ -1,11 +1,11 @@
 import express from 'express';
-import { formControler, formPostControler } from '../controller/form.js';
+import { formView, formPost } from '../controller/form.js';
 
 
 const formRouter = express.Router();
 
-formRouter.get('/', formControler);
+formRouter.get('/', formView);
 
-formRouter.post('/', formPostControler);
+formRouter.post('/', formPost);
 
 export default formRouter;

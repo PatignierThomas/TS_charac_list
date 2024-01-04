@@ -13,7 +13,7 @@ export default (req, res) => {
     });
 };
 
-export const listPostControler = (req, res) => {
+export const listPost = (req, res) => {
     jsonfile.readFile(file, (err, datas) => {
         if (err) console.error(err);
         if (req.body.search) {
@@ -34,7 +34,7 @@ export const listPostControler = (req, res) => {
     });
 };
 
-export const detailControler = (req, res) => {
+export const detailView = (req, res) => {
     jsonfile.readFile(file, (err, datas) => {
         if (err) console.error(err);
         const id = parseInt(req.params.id);

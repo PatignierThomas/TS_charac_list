@@ -2,13 +2,7 @@
 import express from "express";
 import path from "path";
 import favicon from "serve-favicon";
-import multer from "multer";
 import session from 'express-session';
-
-import homeControler from "./controller/home.js";
-import listControler, { detailControler, listPostControler } from "./controller/list.js";
-import { loginControler, loginPostControler, registerControler } from "./controller/login.js";
-import { formControler, formPostControler } from "./controller/form.js";
 
 import router from "./router/index.route.js";
 
@@ -60,24 +54,6 @@ app.use((req, res, next) => {
 
 
 app.use(router)
-
-// app.get("/", homeControler);
-
-// characterRouter.get("/", listControler)
-
-// characterRouter.post("/", listPostControler);
-
-// characterRouter.get("/:id", detailControler);
-
-// authRouter.get("/", loginControler);
-
-// authRouter.post('/', loginPostControler);
-
-// authRouter.get("/auth", registerControler);
-
-// formRouter.get("/", formControler);
-
-// formRouter.post("/", formPostControler);
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
