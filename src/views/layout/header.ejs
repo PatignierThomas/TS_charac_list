@@ -4,7 +4,11 @@
         <ul>
             <li><a href="/">Accueil</a></li>
             <li><a href="/liste">Liste</a></li>
+            <% if (logged) { %>
+                <li><a href="/se-connecter/deconnexion">Déconnexion</a></li>
+            <% } else { %>
             <li><a href="/se-connecter">Connexion</a></li>
+            <% } %>
             <li><a href="/form">Form</a></li>
         </ul>
     </nav>

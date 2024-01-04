@@ -1,9 +1,12 @@
-<form>
+<form method="POST">
     <label htmlFor='username'>Nom d'utilisateur :</label>
     <input type="text" name="username" id="username" />
 
     <label htmlFor='password'>Mot de passe: </label>
     <input type="password" name="password" id="password" />
 
-    <input type="submit" value="login" />
+    <input type="submit" value="register" />
+    <% if (query.error === 'user') { %>
+        <p>User not found. Please check your username.</p>
+    <% } %>
 </form>
