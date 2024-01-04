@@ -15,12 +15,9 @@ export const loginPostControler = (req, res) => {
     jsonfile.readFile(users, (err, data) => {
         if (err) console.error(err);
         const user = data.find(user => user.username === req.body.username);
-        if (!user) {
-            return res.redirect("/se-connecter?error=auth");
-        }
         bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err) console.error(err);
-            if (!result) {
+            if (!result || !user) {
                 return res.redirect("/se-connecter?error=auth");
             } else if (result){
                 req.session.name = req.body.username;
