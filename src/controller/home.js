@@ -1,22 +1,22 @@
-import jsonfile from "jsonfile";
-import path from "path";
+import Query from "../model/Query.js";
 
-const file = path.join(process.cwd(), "public/data/datas.json");
 
-export default (req, res) => {
-    jsonfile.readFile(file, (err, datas) => {
-        // on vérifie nos données
-        if (err) console.error(err);
+export default async (req, res) => {
+    try {
+        const query = "SELECT id, src, alt, title, cat FROM `characters`";
+        let datas = await Query.render(query)
         // on mélange les données avec un algorithme de Fisher-Yates
         for (let i = datas.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [datas[i], datas[j]] = [datas[j], datas[i]];
+        const j = Math.floor(Math.random() * (i + 1));
+        [datas[i], datas[j]] = [datas[j], datas[i]];
         }
-        // on ne garde que les 3 premières données
         datas = datas.slice(0, 3);
         res.render("layout/base", {
             template: "../pages/home",
             datas,
         });
-    });
+    }
+    catch (err) {
+        console.error(err);
+    }
 };

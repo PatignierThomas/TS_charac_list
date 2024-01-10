@@ -1,47 +1,55 @@
-import jsonfile from "jsonfile";
-import path from "path";
+import Query from "../model/Query.js";
 
-const file = path.join(process.cwd(), "public/data/datas.json");
-
-export default (req, res) => {
-    jsonfile.readFile(file, (err, datas) => {
-        if (err) console.error(err);
+export default async (req, res) => {
+    try {
+        const query = "SELECT id, src, alt, title, cat FROM `characters`";
+        let datas = await Query.render(query)
+        const categories = [...new Set(datas.map((item) => item.cat))];
         res.render("layout/base", {
             template: "../characters/list",
             datas,
+            categories,
         });
-    });
+    }
+    catch (err) {
+        console.error(err);
+    }
 };
 
-export const listPost = (req, res) => {
-    jsonfile.readFile(file, (err, datas) => {
-        if (err) console.error(err);
+export const listPost = async (req, res) => {
+    try {
+        const query = "SELECT id, src, alt, title, cat FROM `characters`";
+        let datas = await Query.render(query)
+        const categories = [...new Set(datas.map((item) => item.cat))];
         if (req.body.search) {
             const search = req.body.search;
-            const filteredData = datas.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()));
-            res.render("layout/base", {
-                template: "../characters/list",
-                datas: filteredData,
-            });
+            datas = datas.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()));
         }
         if (req.body.cat) {
-            const data = req.body.cat !== "all" ? datas = datas.filter(image => image.cat === req.body.cat) : datas;
-            res.render("layout/base", {
-                template: "../characters/list",
-                datas: data,
-            });
+            datas = req.body.cat !== "all" ? datas = datas.filter(image => image.cat === req.body.cat) : datas;
         }
-    });
+        res.render("layout/base", {
+            template: "../characters/list",
+            datas,
+            categories,
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
 };
 
-export const detailView = (req, res) => {
-    jsonfile.readFile(file, (err, datas) => {
-        if (err) console.error(err);
+export const detailView = async (req, res) => {
+    try {
+        const query = "SELECT src, alt, title, cat, description FROM `characters` WHERE id = ?";
         const id = parseInt(req.params.id);
-        const data = datas.find((item) => item.id === id);
+        const [data] = await Query.renderWithValues(query, [id])
         res.render("layout/base", {
             template: "../characters/detail",
             data,
         });
-    });
+    }
+    catch (err) {
+        console.error(err);
+    }
 };

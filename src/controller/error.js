@@ -4,3 +4,9 @@ export const forbiddenView = (req, res) => {
     });
 }
 
+export const notFoundView = (req, res) => {
+    res.render("layout/base", {
+        template: "../error/notFound",
+    });
+}
+

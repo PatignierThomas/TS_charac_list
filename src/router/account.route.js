@@ -1,8 +1,10 @@
 import express from 'express';
-import { accountView } from '../controller/account.js';
+import { accountView, accountPost } from '../controller/account.js';
 
 const accountRouter = express.Router();
 
 accountRouter.get("/", accountView)
+
+accountRouter.post("/", accountPost)
 
 export default accountRouter;

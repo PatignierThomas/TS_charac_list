@@ -7,5 +7,13 @@
 </head>
 <body>
     <h1>Bonjour <%= name %> Bienvenue sur le Dashboard</h1>
+    <h2>Modifier vos information</h2>
+    <form method="POST">
+        <label for="username">Nom</label>
+        <input type="text" name="username" id="username" value="<%= name %>">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" value="<%= email %>">
+        <button type="submit">Modifier</button>
+    </form>
 </body>
 </html>

@@ -13,7 +13,7 @@ const loggedOnly = (req, res, next) => {
     if (req.session.isLogged) {
         next();
     } else {
-        res.redirect("/forbidden");
+        res.redirect("/error/403");
     }
 };
 
@@ -21,7 +21,7 @@ const adminOnly = (req, res, next) => {
     if (req.session.isAdmin) {
         next();
     } else {
-        res.redirect("/forbidden");
+        res.redirect("/error/403");
     }
 }
 
@@ -35,8 +35,13 @@ indexRouter.use('/form', formRouter);
 
 indexRouter.use("/account", loggedOnly,  accountRouter);
 
-indexRouter.use('/forbidden', errorRouter);
-
 indexRouter.use("/admin", adminOnly, adminRouter)
+
+indexRouter.use('/error', errorRouter);
+
+indexRouter.get("*", (req, res) => {
+    res.redirect("/error/404");
+});
+
 
 export default indexRouter;

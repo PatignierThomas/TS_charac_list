@@ -14,19 +14,20 @@
         "express",
         "ejs"
     ],
-    "author": "Khyn",
+    "author": "Thomas",
     "license": "ISC",
     "devDependencies": {
         "nodemon": "^3.0.2"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
-        "body-parser": "^1.20.2",
+        "dotenv": "^16.3.1",
         "ejs": "^3.1.9",
         "express": "^4.18.2",
         "express-session": "^1.17.3",
         "jsonfile": "^6.1.0",
         "multer": "^1.4.5-lts.1",
+        "mysql2": "^3.7.0",
         "sass": "^1.69.5",
         "serve-favicon": "^2.5.0"
     }

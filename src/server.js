@@ -4,12 +4,11 @@ import path from "path";
 import favicon from "serve-favicon";
 import session from 'express-session';
 
+import "dotenv/config";
 import router from "./router/index.route.js";
 
 // Création de l'application express
 const app  = express();
-const PORT = 9000;
-
 
 // favicon -> icône du site dans l'onglet du navigateur
 // explication de la méthode use() plus bas (ligne 60)
@@ -26,15 +25,11 @@ app.use("/img" , express.static(path.join(process.cwd(), "/public/assets/img/"))
 app.use('/stylesheets', express.static(path.join(process.cwd(), '/public/assets/stylesheets/')));
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/liste", characterRouter);
-app.use("/se-connecter", authRouter);
-app.use("/form", formRouter);
-
 // permet de stocker des données de sessions dans un store (par défaut dans la mémoire)
 // et de les récupérer dans les requêtes suivantes
 app.use(
     session({
-        secret: "aYF8ISbYkXvzsrA4LVvRj6LQo5gLBqUX", // clé de chiffrement du cookie de session, https://www.random.org/strings/
+        secret: process.env.SK_SESSION, // clé de chiffrement du cookie de session, https://www.random.org/strings/
         resave: false, // true pour sauvegarder la session à chaque requête même si elle n'a pas changé / false pour sauvegarder uniquement si elle a changé (performances), true est déprécié
         saveUninitialized: false, // true pour sauvegarder une session vide dans le store, false pour ne pas la sauvegarder (performances), true est déprécié
         cookie: {
@@ -53,11 +48,12 @@ app.use((req, res, next) => {
     res.locals.name = req.session.name;
     res.locals.logged = req.session.isLogged;
     res.locals.isAdmin = req.session.isAdmin;
+    res.locals.email = req.session.email;
     next();
 });
 
 app.use(router)
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+app.listen(process.env.LOCAL_PORT, () => {
+    console.log(`Server is running at http://localhost:${process.env.LOCAL_PORT}`);
 });

@@ -1,8 +1,6 @@
+import Query from "../model/Query.js";
 import bcrypt from "bcrypt";
-import jsonfile from "jsonfile";
-import path from "path";
-
-const users = path.join(process.cwd(), "public/data/users.json");
+import { hashPassword } from "../util/bcrypt.js";
 
 export const loginView = (req, res) => {
     res.render("layout/base", {
@@ -11,23 +9,28 @@ export const loginView = (req, res) => {
     });
 }
 
-export const loginPost = (req, res) => {
-    jsonfile.readFile(users, (err, data) => {
-        if (err) console.error(err);
-        const user = data.find(user => user.username === req.body.username);
+export const loginPost = async (req, res) => {
+    try {
+        const query = "SELECT username, password, isAdmin FROM `users` WHERE username = ?";
+        const [user] = await Query.renderWithValues(query, [req.body.username]);
         if (!user) return res.redirect("/se-connecter?error=auth");
-        bcrypt.compare(req.body.password, user.password, (err, result) => {
-            if (err) console.error(err);
-            if (!result) {
-                return res.redirect("/se-connecter?error=auth");
-            } else {
-                req.session.isAdmin = user.isAdmin;
-                req.session.name = req.body.username;
+            bcrypt.compare(req.body.password, user.password, (err, result) => {
+                if (err) console.error(err);
+                if (!result) {
+                    return res.redirect("/se-connecter?error=auth");
+                }
+                if (user.isAdmin) {
+                    req.session.isAdmin = user.isAdmin;
+                }
                 req.session.isLogged = true;
+                req.session.name = req.body.username;
                 return res.redirect("/");
-            }
+                
         });
-    });
+    } 
+    catch (err) {
+        console.error(err);
+    }
 };
 
 export const registerView = (req, res) => {
@@ -37,30 +40,20 @@ export const registerView = (req, res) => {
     });
 }
 
-export const registerPost = (req, res) => {
-    jsonfile.readFile(users, (err, data) => {
-        if (err) console.error(err);
-        // check if username already exists
-        const user = data.find(user => user.username === req.body.username);
+export const registerPost = async (req, res) => {
+    try {
+        const query = "SELECT username FROM `users` WHERE username = ?";
+        const [user] = await Query.renderWithValues(query, [req.body.username]);
         if (user) return res.redirect("/se-connecter/auth?error=exists");
-        // create new user
         req.session.name = req.body.username;
-        // hash password
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
-            if (err) console.error(err);
-            req.session.password = hash;
-            const creds = { 
-                username: req.body.username, 
-                password: hash,
-                isAdmin: false,
-            };
-            data.push(creds);
-            jsonfile.writeFile(users, data, (err) => {
-                if (err) console.error(err);
-            });
-            res.redirect("/se-connecter");
-        });
-    });
+        const hash = await hashPassword(req, res);
+        const register = "INSERT INTO `users` (username, password, isAdmin) VALUES (?, ?, ?)";
+        await Query.insert(register, [req.body.username, hash, false]);
+        res.redirect("/se-connecter");
+    }
+    catch (err) {
+        console.error(err);
+    }
 }
 
 export const logout = (req, res) => {
