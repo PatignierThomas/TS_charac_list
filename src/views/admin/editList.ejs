@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="title">Titre</label>
+        <input type="text" name="title" placeholder="Titre" value="<%= data.title %>">
+        <label for="description">Description</label>
+        <textarea name="description" placeholder="Description"><%= data.description %></textarea>
+        <label for="alt">alt</label>
+        <input type="text" name="alt" placeholder="alt" value="<%= data.alt %>">
+        <label for="cat">Catégorie</label>
+        <select name="cat" id="cat">
+            <% for (const category of categories) { %>
+                <option value="<%= category.cat %>"><%= category.cat %></option>
+            <% } %>
+        </select>
+        <input type="file" name="img" id="img">
+        <input type="submit" value="Envoyer">
+    </form>
+</body>
+</html>

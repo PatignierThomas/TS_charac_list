@@ -18,6 +18,11 @@ export default async (req, res) => {
 
 export const listPost = async (req, res) => {
     try {
+        if (req.body.delete) {
+            const query = "DELETE FROM `characters` WHERE id = ?";
+            const id = parseInt(req.body.delete);
+            await Query.renderWithValues(query, [id]);
+        }
         const query = "SELECT id, src, alt, title, cat FROM `characters`";
         let datas = await Query.render(query)
         const categories = [...new Set(datas.map((item) => item.cat))];

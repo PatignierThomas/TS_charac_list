@@ -48,7 +48,6 @@ app.use((req, res, next) => {
     res.locals.name = req.session.name;
     res.locals.logged = req.session.isLogged;
     res.locals.isAdmin = req.session.isAdmin;
-    res.locals.email = req.session.email;
     next();
 });
 
