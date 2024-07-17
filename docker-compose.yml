@@ -1,0 +1,31 @@
+version: '3'
+services:
+  api:
+    build: ./api
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./api:/usr/app/
+      - /usr/app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - /api/.env
+  db:
+    build:
+      context: .
+      dockerfile: database/Dockerfile.db
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - /database/.env
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+volumes:
+  db_data:

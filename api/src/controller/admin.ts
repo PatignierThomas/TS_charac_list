@@ -1,6 +1,7 @@
-import Query from "../model/Query.js";
+import Query from "../model/Query";
+import { Request, Response } from 'express';
 
-export const adminView = async (req, res) => {
+export const adminView = async (req: Request, res: Response) => {
     const query = "SELECT username FROM `users`";
     const users = await Query.render(query);
     res.render("layout/base", {
@@ -9,7 +10,7 @@ export const adminView = async (req, res) => {
     });
 }
 
-export const adminCharacterView = async (req, res) => {
+export const adminCharacterView = async (req: Request, res: Response) => {
     const query = "SELECT id, src, alt, title, cat FROM `characters`";
     let datas = await Query.render(query)
     const categories = [...new Set(datas.map((item) => item.cat))];
@@ -20,9 +21,8 @@ export const adminCharacterView = async (req, res) => {
     });
 }
 
-export const adminCharacterPost = async (req, res) => {
+export const adminCharacterPost = async (req: Request, res: Response) => {
     const query = "INSERT INTO `characters` (src, alt, title, cat, description) VALUES (?, ?, ?, ?, ?)";
-    console.log(req.files);
     const values = [req.files[0].path, req.body.alt, req.body.title, req.body.cat, req.body.description];
     await Query.insert(query, values);
     res.redirect("/admin/liste");

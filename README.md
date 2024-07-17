@@ -1,0 +1,1 @@
+A revisited version of charac-list using Typescript and Docker

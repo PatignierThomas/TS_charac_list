@@ -3,10 +3,10 @@
     "version": "0.1.0",
     "description": "Lorem ipsum dolor sit amet",
     "main": "src/app.js",
-    "type": "module",
     "scripts": {
+        "build": "npx tsc",
         "start": "node src/server.js",
-        "dev": "nodemon src/server.js -e js,ejs,scss",
+        "dev": "nodemon dist/server.js -e ts,js,ejs,scss",
         "sass": "sass --watch public/assets/stylesheets/scss:public/assets/stylesheets/css"
     },
     "keywords": [
@@ -17,7 +17,14 @@
     "author": "Thomas",
     "license": "ISC",
     "devDependencies": {
-        "nodemon": "^3.0.2"
+        "@types/bcrypt": "^5.0.2",
+        "@types/express": "^4.17.21",
+        "@types/express-session": "^1.18.0",
+        "@types/multer": "^1.4.11",
+        "@types/serve-favicon": "^2.5.7",
+        "nodemon": "^3.0.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.5"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",

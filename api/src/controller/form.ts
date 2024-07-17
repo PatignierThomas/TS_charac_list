@@ -1,6 +1,7 @@
 import path from "path";
 import multer from "multer";
 import fs from "fs";
+import { Request, Response } from 'express';
 
 // multer.diskStorage permet de définir le dossier de destination et le nom du fichier
 const storage = multer.diskStorage({
@@ -41,18 +42,18 @@ const upload = multer({
             // null correspond à l'erreur, true correspond à l'acceptation du fichier
             return cb(null, true);
         } else {
-            cb("Images en png, jpg ou jpeg uniquement");
+            cb(new Error("Images en png, jpg ou jpeg uniquement"));
         }
     },
 }).array("img", 10); // image est le nom de l'input type file -> attribut name, 10 est le nombre de fichiers acceptés maximum
 
-export const formView = (req, res) => {
+export const formView = (req : Request, res:Response) => {
     res.render("layout/base", {
         template: "../pages/form",
     });
 }
 
-export const formPost = (req, res) => {
+export const formPost = (req : Request, res:Response) => {
     upload(req, res, (err) => {
         if (err) {
             if (err.code === "LIMIT_FILE_SIZE") {

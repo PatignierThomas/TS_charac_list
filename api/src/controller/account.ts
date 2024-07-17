@@ -1,7 +1,7 @@
 import Query from "../model/Query.js";
-import { hashPassword } from "../util/bcrypt.js";
+import { Request, Response } from 'express';
 
-export const accountView = async (req, res) => {
+export const accountView = async (req: Request, res: Response) => {
     const query = "SELECT username, e_mail FROM `users` WHERE username = ?";
     const values = [req.session.name];
     const [userData] = await Query.renderWithValues(query, values);
@@ -12,7 +12,7 @@ export const accountView = async (req, res) => {
     });
 }
 
-export const accountPost = async (req, res) => {
+export const accountPost = async (req: Request, res: Response) => {
     try {
         const update = "UPDATE `users` SET username = ?, e_mail = ? WHERE username = ?";
         // if (req.session.name) {

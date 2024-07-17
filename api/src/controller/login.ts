@@ -1,15 +1,16 @@
 import Query from "../model/Query.js";
 import bcrypt from "bcrypt";
 import { hashPassword } from "../util/bcrypt.js";
+import { Request, Response } from 'express';
 
-export const loginView = (req, res) => {
+export const loginView = (req: Request, res: Response) => {
     res.render("layout/base", {
         template: "../auth/login",
         query: req.query,
     });
 }
 
-export const loginPost = async (req, res) => {
+export const loginPost = async (req: Request, res: Response) => {
     try {
         const query = "SELECT username, password, isAdmin FROM `users` WHERE username = ?";
         const [user] = await Query.renderWithValues(query, [req.body.username]);
@@ -33,14 +34,14 @@ export const loginPost = async (req, res) => {
     }
 };
 
-export const registerView = (req, res) => {
+export const registerView = (req: Request, res: Response) => {
     res.render("layout/base", {
         template: "../auth/register",
         query: req.query,
     });
 }
 
-export const registerPost = async (req, res) => {
+export const registerPost = async (req: Request, res: Response) => {
     try {
         const query = "SELECT username FROM `users` WHERE username = ?";
         const [user] = await Query.renderWithValues(query, [req.body.username]);
@@ -56,8 +57,8 @@ export const registerPost = async (req, res) => {
     }
 }
 
-export const logout = (req, res) => {
-    req.session.destroy((err) => {
+export const logout = (req: Request, res: Response) => {
+    req.session.destroy((err: string) => {
         if (err) console.error(err);
     });
     res.clearCookie('connect.sid');

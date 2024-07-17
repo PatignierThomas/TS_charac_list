@@ -1,6 +1,7 @@
 import Query from "../model/Query.js";
+import { Request, Response } from 'express';    
 
-export default async (req, res) => {
+export default async (req: Request, res: Response) => {
     try {
         const query = "SELECT id, src, alt, title, cat FROM `characters`";
         let datas = await Query.render(query)
@@ -16,7 +17,7 @@ export default async (req, res) => {
     }
 };
 
-export const listPost = async (req, res) => {
+export const listPost = async (req: Request, res: Response) => {
     try {
         if (req.body.delete) {
             const query = "DELETE FROM `characters` WHERE id = ?";
@@ -44,7 +45,7 @@ export const listPost = async (req, res) => {
     }
 };
 
-export const detailView = async (req, res) => {
+export const detailView = async (req: Request, res: Response) => {
     try {
         const query = "SELECT src, alt, title, cat, description FROM `characters` WHERE id = ?";
         const id = parseInt(req.params.id);

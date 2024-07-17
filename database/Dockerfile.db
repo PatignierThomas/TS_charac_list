@@ -1,0 +1,7 @@
+FROM mysql:latest
+
+# Set the working directory in the container
+WORKDIR /docker-entrypoint-initdb.d
+
+# Copy the database schema to the docker entrypoint so it gets executed upon startup
+COPY /database/charac_list.sql /docker-entrypoint-initdb.d

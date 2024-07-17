@@ -1,7 +1,8 @@
 import Query from "../model/Query.js";
+import { Request, Response } from 'express';
 
 
-export default async (req, res) => {
+export default async (req: Request, res: Response) => {
     try {
         const query = "SELECT id, src, alt, title, cat FROM `characters`";
         let datas = await Query.render(query)

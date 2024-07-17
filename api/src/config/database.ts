@@ -12,10 +12,11 @@ const pool = mysql.createPool({
 });
 
 // vérification de la connexion à la base de données
+
 pool.getConnection().then((connection) => {
     console.log(`Connected to ${connection.config.database} DB`);
     // on libère la connexion
-    connection.release();
-});
+    connection.release();    
+})
 
 export default pool;

@@ -1,24 +1,25 @@
-import express from 'express';
+import express, { Express, Request, Response, NextFunction } from "express";
+
 import homeView from '../controller/home.js';
-import listRouter from './list.route.js';
-import loginRouter from './login.route.js';
-import formRouter from './form.route.js';
-import accountRouter from './account.route.js';
-import errorRouter from './error.route.js';
-import adminRouter from './admin.route.js';
+import listRouter from './list.route';
+import loginRouter from './login.route';
+import formRouter from './form.route';
+import accountRouter from './account.route';
+import errorRouter from './error.route';
+import adminRouter from './admin.route';
 
 const indexRouter = express.Router();
 
-const loggedOnly = (req, res, next) => {
-    if (req.session.isLogged) {
+const loggedOnly = (req: Request, res: Response, next: NextFunction) => {
+    if (req.session && req.session.isLogged) {
         next();
     } else {
         res.redirect("/error/403");
     }
 };
 
-const adminOnly = (req, res, next) => {
-    if (req.session.isAdmin) {
+const adminOnly = (req: Request, res: Response, next: NextFunction) => {
+    if (req.session && req.session.isAdmin) {
         next();
     } else {
         res.redirect("/error/403");

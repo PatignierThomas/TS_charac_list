@@ -1,6 +1,7 @@
 import Query from "../model/Query.js";
+import { Request, Response } from 'express';
 
-export const editorView = async (req, res) => {
+export const editorView = async (req: Request, res: Response) => {
     const query = "SELECT id, src, alt, title, cat, description FROM `characters` WHERE id = ?";
     const values = [req.params.id];
     const [data] = await Query.renderWithValues(query, values);
@@ -13,7 +14,7 @@ export const editorView = async (req, res) => {
     });
 }
 
-export const editorPost = async (req, res) => {
+export const editorPost = async (req: Request, res: Response) => {
     const query = "UPDATE `characters` SET src = ?, alt = ?, title = ?, cat = ?, description = ? WHERE id = ?";
     const values = [req.files[0].path, req.body.alt, req.body.title, req.body.cat, req.body.description, req.params.id];
     await Query.insert(query, values);
